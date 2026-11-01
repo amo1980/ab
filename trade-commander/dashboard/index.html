@@ -1,0 +1,326 @@
+<meta name="dash-one-writer">
+<style>
+.tc { display: grid; gap: var(--cds-gap-xl); font-family: var(--font-anthropic-sans); }
+.tc-head h1 { font-family: var(--font-anthropic-serif); font-weight: 400; font-size: var(--cds-font-size-title); margin: 0; text-wrap: balance; }
+.tc-head p { margin: var(--cds-gap-xs) 0 0; color: var(--color-fg-muted); max-width: 70ch; }
+.tc-head p b { color: var(--color-fg); font-weight: 600; }
+.tc-tiles { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 9.5rem), 1fr)); gap: var(--cds-gap-md); }
+.tc-tile { background: var(--color-panel); border: 1px solid var(--color-border-line); border-radius: var(--cds-radius); padding: var(--cds-pad-md) var(--cds-pad-lg); display: grid; gap: var(--cds-gap-xs); }
+.tc-tile span { color: var(--color-fg-muted); font-size: var(--cds-font-size-caption); }
+.tc-tile .v { font-family: var(--font-anthropic-serif); font-weight: 400; font-size: var(--cds-font-size-title); font-variant-numeric: tabular-nums; }
+.tc-sec { display: grid; gap: var(--cds-gap-md); }
+.tc-sec h2 { font-size: var(--cds-font-size-heading); font-weight: var(--cds-font-weight-medium); margin: 0; }
+.tc-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 24rem), 1fr)); gap: var(--cds-gap-md); }
+.tc-card { background: var(--color-panel); border: 1px solid var(--color-border-line); border-radius: var(--cds-radius); padding: var(--cds-pad-lg); display: grid; gap: var(--cds-gap-sm); align-content: start; min-width: 0; }
+.tc-card h3 { font-size: var(--cds-font-size-heading); font-weight: var(--cds-font-weight-medium); margin: 0; }
+.tc-note { margin: 0; color: var(--color-fg-muted); font-size: var(--cds-font-size-caption); }
+.tc-scroll { overflow: auto; max-height: 28rem; min-width: 0; }
+.tc table { border-collapse: collapse; width: 100%; font-size: var(--cds-font-size-caption); font-variant-numeric: tabular-nums; }
+.tc th { text-align: left; font-weight: var(--cds-font-weight-medium); color: var(--color-fg-muted); padding: var(--cds-pad-xs) var(--cds-pad-sm); border-bottom: 1px solid var(--color-border-line); position: sticky; top: 0; background: var(--color-panel); white-space: nowrap; }
+.tc td { padding: var(--cds-pad-xs) var(--cds-pad-sm); border-bottom: 1px solid var(--color-border-line); vertical-align: top; }
+.tc td.wide { min-width: 16rem; }
+.tc td.num, .tc th.num { text-align: right; }
+.chip { display: inline-block; white-space: nowrap; padding: 0 var(--cds-pad-sm); border-radius: 999px; border: 1px solid currentColor; font-size: var(--cds-font-size-caption); }
+.chip.ok { color: var(--color-ok); }
+.chip.warn { color: var(--color-warn); }
+.chip.bad { color: var(--color-bad); }
+.chip.muted { color: var(--color-fg-muted); }
+.tc-ideas { display: grid; gap: var(--cds-gap-sm); }
+.tc-idea { background: var(--color-panel); border: 1px solid var(--color-border-line); border-radius: var(--cds-radius); min-width: 0; }
+.tc-idea summary { cursor: pointer; display: flex; flex-wrap: wrap; align-items: center; gap: var(--cds-gap-sm); padding: var(--cds-pad-md) var(--cds-pad-lg); }
+.tc-idea summary:focus-visible { outline: 2px solid var(--color-fg); outline-offset: 2px; }
+.tc-idea-id { font-variant-numeric: tabular-nums; color: var(--color-fg-muted); font-size: var(--cds-font-size-caption); }
+.tc-idea-title { font-weight: var(--cds-font-weight-medium); }
+.tc-idea-meta { margin-left: auto; color: var(--color-fg-muted); font-size: var(--cds-font-size-caption); font-variant-numeric: tabular-nums; }
+.tc-idea-body { display: grid; gap: var(--cds-gap-md); padding: 0 var(--cds-pad-lg) var(--cds-pad-lg); }
+.tc-idea-body dl { margin: 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 16rem), 1fr)); gap: var(--cds-gap-sm) var(--cds-gap-md); }
+.tc-kv { min-width: 0; }
+.tc-kv dt { color: var(--color-fg-muted); font-size: var(--cds-font-size-caption); }
+.tc-kv dd { margin: 0; font-size: var(--cds-font-size-caption); overflow-wrap: anywhere; }
+.tc-idea-body img { width: 100%; height: auto; border-radius: var(--cds-radius); display: block; }
+.tc-empty { margin: 0; color: var(--color-fg-muted); font-size: var(--cds-font-size-caption); }
+[data-dash-source-state=empty] { color: transparent; }
+[data-dash-source-state=refreshing] { opacity: .5; transition: opacity var(--cds-dur-slow); }
+</style>
+
+<div class="tc">
+  <header class="tc-head">
+    <h1>Trade Commander</h1>
+    <p>Onboarding stage now: <b data-draw="stage" data-source="onboarding">—</b>. Every idea stays NO TRADE until you send CONFIRMED.</p>
+  </header>
+
+  <div class="tc-tiles" data-fetchpriority="high">
+    <div class="tc-tile"><span>Ideas logged</span><div class="v" data-draw="t-ideas" data-source="stats" data-field="ideas" data-row="0">—</div></div>
+    <div class="tc-tile"><span>Trades taken</span><div class="v" data-draw="t-trades" data-source="stats" data-field="trades" data-row="0">—</div></div>
+    <div class="tc-tile"><span>Net result (R)</span><div class="v" data-draw="t-net" data-source="stats" data-field="net_r" data-row="0">—</div></div>
+    <div class="tc-tile"><span>Win rate</span><div class="v" data-draw="t-win" data-source="stats" data-field="win_rate" data-row="0">—</div></div>
+    <div class="tc-tile"><span>Expectancy per trade</span><div class="v" data-draw="t-exp" data-source="stats" data-field="expectancy" data-row="0">—</div></div>
+  </div>
+
+  <section class="tc-sec" id="ideas">
+    <h2>Trade ideas</h2>
+    <p class="tc-note">Newest first. Open ideas (GO and WAIT) start expanded; tap any idea to open its evidence and annotated chart. Times are UTC.</p>
+    <div class="tc-ideas" data-draw="ideas-list" data-source="ideas"></div>
+  </section>
+
+  <section class="tc-sec" id="journal">
+    <h2>Trade journal</h2>
+    <div class="tc-grid">
+      <div class="tc-card">
+        <h3>Trades taken</h3>
+        <p class="tc-note">Trades you take in MT5. Results are in R, where 1R is the amount you risked.</p>
+        <p class="tc-empty" data-empty="trades" hidden>No trades logged yet. Tell me when you take a trade and I'll add it here.</p>
+        <div class="tc-scroll">
+          <table data-source="trades" data-row-key="id">
+            <thead><tr>
+              <th data-field="id">ID</th><th data-field="opened_utc">Opened</th><th data-field="pair">Pair</th><th data-field="direction">Direction</th><th data-field="style">Style</th><th data-field="entry" class="num">Entry</th><th data-field="stop" class="num">Stop</th><th data-field="exit" class="num">Exit</th><th data-field="result_r" class="num">Result</th><th data-field="followed_plan">Followed plan</th><th data-field="notes">Notes</th>
+            </tr></thead>
+            <tbody data-draw="trades-body"></tbody>
+          </table>
+        </div>
+      </div>
+      <div class="tc-card">
+        <h3>Results by trade style</h3>
+        <p class="tc-note">Scalp, day trade and swing compared. A style needs 30 trades before I suggest any change to it.</p>
+        <p class="tc-empty" data-empty="perf" hidden>Appears after your first closed trade.</p>
+        <div class="tc-scroll">
+          <table data-source="perf" data-row-key="style">
+            <thead><tr><th data-field="style">Style</th><th data-field="trades" class="num">Trades</th><th data-field="win_rate" class="num">Win rate</th><th data-field="avg_r" class="num">Average R</th></tr></thead>
+            <tbody data-draw="perf-body"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="tc-sec" id="rules">
+    <h2>Rules and onboarding</h2>
+    <div class="tc-grid">
+      <div class="tc-card">
+        <h3>Risk rules and settings</h3>
+        <p class="tc-note">Pending rules block every GO until you set them.</p>
+        <div class="tc-scroll">
+          <table data-source="rules" data-row-key="rule">
+            <thead><tr><th data-field="rule">Rule</th><th data-field="value">Value</th><th data-field="status">Status</th></tr></thead>
+            <tbody data-draw="rules-body"></tbody>
+          </table>
+        </div>
+      </div>
+      <div class="tc-card">
+        <h3>Onboarding stages</h3>
+        <p class="tc-note">One stage at a time. Stage 6 ends with your CONFIRMED.</p>
+        <div class="tc-scroll">
+          <table data-source="onboarding" data-row-key="stage">
+            <thead><tr><th data-field="stage">Stage</th><th data-field="name">Step</th><th data-field="status">Status</th></tr></thead>
+            <tbody data-draw="onb-body"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="tc-sec" id="market">
+    <h2>Market context</h2>
+    <div class="tc-grid">
+      <div class="tc-card">
+        <h3>Central banks for your pairs</h3>
+        <p class="tc-note">From the MRKT Rates page, 30 Oct 2026, 15:05 New York time.</p>
+        <div class="tc-scroll">
+          <table data-source="rates" data-row-key="bank">
+            <thead><tr><th data-field="bank">Bank</th><th data-field="rate_pct" class="num">Rate</th><th data-field="next_decision">Next decision</th><th data-field="implied_bp" class="num">Priced move</th><th data-field="most_likely">Most likely</th></tr></thead>
+            <tbody data-draw="rates-body"></tbody>
+          </table>
+        </div>
+      </div>
+      <div class="tc-card">
+        <h3>US economy</h3>
+        <p class="tc-note">From the MRKT Economy page. The Fed Funds Target here (3.88%) differs from the Rates page (4.00%). I'll check which one the portal means.</p>
+        <div class="tc-scroll">
+          <table data-source="usmacro" data-row-key="indicator">
+            <thead><tr><th data-field="indicator">Indicator</th><th data-field="value" class="num">Latest</th><th data-field="period">Period</th><th data-field="change" class="num">Change</th></tr></thead>
+            <tbody data-draw="macro-body"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="tc-sec" id="reviews">
+    <h2>Reviews</h2>
+    <div class="tc-card">
+      <p class="tc-note">Daily debriefs, weekly reviews and monthly suggestions. No suggestion changes a rule without your written approval.</p>
+      <div class="tc-scroll">
+        <table data-source="reviews" data-row-key="id">
+          <thead><tr><th data-field="id">ID</th><th data-field="date">Date</th><th data-field="type">Type</th><th data-field="summary">Summary</th></tr></thead>
+          <tbody data-draw="reviews-body"></tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+</div>
+
+<script>
+dash.calc('stats', {
+  inputs: ['ideas', 'trades'],
+  title: 'Headline figures',
+  description: 'Ideas and trades counted; net R, win rate and expectancy from closed trades.',
+  fn: (ideas, journal) => {
+    const trades = journal.filter((t) => t.kind === 'trade');
+    const closed = trades.filter((t) => t.result_r !== null && t.result_r !== undefined && t.result_r !== '');
+    const n = closed.length;
+    const net = closed.reduce((a, t) => a + Number(t.result_r), 0);
+    return [{
+      ideas: ideas.length,
+      trades: trades.length,
+      net_r: net,
+      win_rate: n ? closed.filter((t) => Number(t.result_r) > 0).length / n : null,
+      expectancy: n ? net / n : null,
+    }];
+  },
+});
+
+dash.calc('perf', {
+  inputs: ['trades'],
+  title: 'Results by trade style',
+  description: 'Closed trades grouped by style, with count, win rate and average R.',
+  fn: (journal) => {
+    const groups = {};
+    journal.filter((t) => t.kind === 'trade').filter((t) => t.result_r !== null && t.result_r !== undefined && t.result_r !== '')
+      .forEach((t) => { const k = t.style || 'Not set'; (groups[k] = groups[k] || []).push(Number(t.result_r)); });
+    return Object.entries(groups).map(([style, rs]) => ({
+      style,
+      trades: rs.length,
+      win_rate: rs.filter((r) => r > 0).length / rs.length,
+      avg_r: rs.reduce((a, r) => a + r, 0) / rs.length,
+    }));
+  },
+});
+
+window.tcFmtR = (v) => (v === null || v === undefined || v === '' ? '—' : (Number(v) > 0 ? '+' : '') + d3.format('.2f')(Number(v)) + 'R');
+window.tcChip = (td, v) => {
+  const s = document.createElement('span');
+  const t = String(v ?? '');
+  const u = t.toUpperCase();
+  let c = 'muted';
+  if (/^(GO|SET|DONE|STILL VALID|TARGET HIT|Y)$/.test(u)) c = 'ok';
+  else if (/^(WAIT|TO CONFIRM|IN PROGRESS|NEXT|WEAKENING|PENDING)$/.test(u)) c = 'warn';
+  else if (/STAND DOWN|BLOCKED|INVALID|^N$/.test(u)) c = 'bad';
+  s.className = 'chip ' + c;
+  s.textContent = t || '—';
+  td.appendChild(s);
+};
+window.tcTable = (name, id, cols, fmt, wide, num) => {
+  dash.draw(name, (tb) => {
+    const g = dash.data(id);
+    const rows = g.status === 'ok' && Array.isArray(g.data) ? g.data : [];
+    tb.replaceChildren(...rows.map((r) => {
+      const tr = document.createElement('tr');
+      cols.forEach((c) => {
+        const td = document.createElement('td');
+        if (wide && wide.includes(c)) td.className = 'wide';
+        if (num && num.includes(c)) td.className = 'num';
+        const v = r[c];
+        if (fmt && fmt[c]) fmt[c](td, v, r);
+        else td.textContent = v === null || v === undefined || v === '' ? '—' : String(v);
+        tr.appendChild(td);
+      });
+      return tr;
+    }));
+  });
+};
+</script>
+
+<script>
+const tile = (name, field, fmt) => dash.draw(name, (el) => {
+  const g = dash.data('stats');
+  const v = g.status === 'ok' && g.data[0] ? g.data[0][field] : null;
+  el.textContent = v === null || v === undefined ? '—' : fmt(v);
+});
+tile('t-ideas', 'ideas', d3.format(','));
+tile('t-trades', 'trades', d3.format(','));
+tile('t-net', 'net_r', window.tcFmtR);
+tile('t-win', 'win_rate', d3.format('.0%'));
+tile('t-exp', 'expectancy', window.tcFmtR);
+
+dash.draw('stage', (el) => {
+  const g = dash.data('onboarding');
+  const row = g.status === 'ok' ? g.data.find((r) => r.status === 'In progress') : null;
+  el.textContent = row ? row.stage + ', ' + row.name : '—';
+});
+
+const chip = { status: window.tcChip };
+window.tcTable('trades-body', 'trades', ['id', 'opened_utc', 'pair', 'direction', 'style', 'entry', 'stop', 'exit', 'result_r', 'followed_plan', 'notes'],
+  { result_r: (td, v) => { td.textContent = window.tcFmtR(v); }, followed_plan: window.tcChip }, ['notes'], ['entry', 'stop', 'exit', 'result_r']);
+window.tcTable('perf-body', 'perf', ['style', 'trades', 'win_rate', 'avg_r'],
+  { win_rate: (td, v) => { td.textContent = d3.format('.0%')(v); }, avg_r: (td, v) => { td.textContent = window.tcFmtR(v); } }, null, ['trades', 'win_rate', 'avg_r']);
+window.tcTable('rules-body', 'rules', ['rule', 'value', 'status'], chip);
+window.tcTable('onb-body', 'onboarding', ['stage', 'name', 'status'], chip);
+window.tcTable('rates-body', 'rates', ['bank', 'rate_pct', 'next_decision', 'implied_bp', 'most_likely'],
+  { rate_pct: (td, v) => { td.textContent = d3.format('.2f')(v) + '%'; }, implied_bp: (td, v) => { td.textContent = (v > 0 ? '+' : '') + v + ' bp'; } }, null, ['rate_pct', 'implied_bp']);
+window.tcTable('macro-body', 'usmacro', ['indicator', 'value', 'period', 'change'], null, null, ['value', 'change']);
+window.tcTable('reviews-body', 'reviews', ['id', 'date', 'type', 'summary'], null, ['summary']);
+
+dash.draw('ideas-list', (box) => {
+  const g = dash.data('ideas');
+  const rows = g.status === 'ok' ? g.data.slice().reverse() : [];
+  const field = (label, value) => {
+    const wrap = document.createElement('div');
+    wrap.className = 'tc-kv';
+    const k = document.createElement('dt');
+    k.textContent = label;
+    const v = document.createElement('dd');
+    v.textContent = value === null || value === undefined || value === '' ? '—' : String(value);
+    wrap.append(k, v);
+    return wrap;
+  };
+  box.replaceChildren(...rows.map((r) => {
+    const d = document.createElement('details');
+    d.className = 'tc-idea';
+    d.open = /^(GO|WAIT)$/i.test(String(r.status || ''));
+    const s = document.createElement('summary');
+    const id = document.createElement('span');
+    id.className = 'tc-idea-id';
+    id.textContent = r.id;
+    const title = document.createElement('span');
+    title.className = 'tc-idea-title';
+    title.textContent = [r.pair, r.direction, r.style].filter((x) => x && x !== 'Not set').join(' · ');
+    const st = document.createElement('span');
+    window.tcChip(st, r.status);
+    const meta = document.createElement('span');
+    meta.className = 'tc-idea-meta';
+    meta.textContent = (r.score === null || r.score === undefined ? 'No score' : r.score + '/100') + ' · ' + r.logged_utc;
+    s.append(id, title, st, meta);
+    const body = document.createElement('div');
+    body.className = 'tc-idea-body';
+    const dl = document.createElement('dl');
+    dl.append(
+      field('MRKT evidence', r.mrkt_evidence),
+      field('Why this status', r.reason),
+      field('Entry zone', r.entry_zone),
+      field('Stop loss', r.stop_loss),
+      field('Targets', r.targets),
+      field('Risk', r.risk),
+      field('Invalidation', r.invalidation),
+      field('Portal AI', r.portal_ai),
+      field('Jev', r.jev),
+      field('Outcome', r.outcome),
+    );
+    body.append(dl);
+    if (typeof r.chart === 'string' && r.chart.startsWith('data:image/')) {
+      const img = document.createElement('img');
+      img.src = r.chart;
+      img.alt = 'Annotated chart for ' + r.id + ' ' + r.pair;
+      img.loading = 'lazy';
+      body.append(img);
+    }
+    d.append(s, body);
+    return d;
+  }));
+});
+
+dash.onData(() => {
+  const empty = (id) => { const g = dash.data(id); return g.status === 'ok' && Array.isArray(g.data) && g.data.filter((r) => id !== 'trades' || r.kind === 'trade').length === 0; };
+  document.querySelectorAll('[data-empty="trades"]').forEach((el) => { el.hidden = !empty('trades'); });
+  document.querySelectorAll('[data-empty="perf"]').forEach((el) => { el.hidden = !empty('perf'); });
+});
+</script>

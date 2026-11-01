@@ -1,0 +1,4 @@
+[{"bank":"Federal Reserve","rate_pct":4.00,"next_decision":"Dec 9","implied_bp":18,"most_likely":"Hike 25 bps 70%"},
+{"bank":"ECB","rate_pct":2.50,"next_decision":"Dec 17","implied_bp":21,"most_likely":"Hike 25 bps 81%"},
+{"bank":"Bank of England","rate_pct":3.75,"next_decision":"Nov 5","implied_bp":24,"most_likely":"Hike 25 bps 98%"},
+{"bank":"Bank of Japan","rate_pct":1.25,"next_decision":"Dec 18","implied_bp":19,"most_likely":"Hike 25 bps 78%"}]
