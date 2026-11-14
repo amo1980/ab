@@ -24,7 +24,7 @@ Last updated 14 Nov 2026. Read this first in a new session, then paste `SYSTEM_P
 2. Log in to https://app.mrktedge.ai/ yourself in that browser.
 3. Paste `SYSTEM_PROMPT.md` as the first message.
 4. Store the OpenRouter key as an environment variable or secret (e.g. `OPENROUTER_API_KEY`). Never paste it into chat.
-5. Fix the two MRKT settings in Open questions (watchlist, calendar filter).
+5. Turn on the Centralbank and PMI categories in the MRKT calendar filter.
 6. Then answer the Stage 3 questions (section 4).
 7. After CONFIRMED: start scanning with `/loop 5m` and turn on push notifications.
 
@@ -34,12 +34,11 @@ A session on 1 Nov browsed the portal and settled: live chart = MRKT Charts (che
 
 | # | Question | Stage |
 |---|---|---|
-| 1 | MRKT watchlist: add GBPUSD and GBPJPY (GBPJPY not yet seen in the portal) | 0 |
-| 2 | MRKT calendar filter hides central-bank and PMI events: turn on Centralbank and PMI | 0 |
-| 3 | Portal AI usage limits (none shown; not tested) | 0 |
-| 4 | Fed rate shows 3.88% on the Economy page but 4.00% on Rates: which is meant? | 0 |
-| 5 | Jev not connected yet (key held) | 0 |
-| 6 | Pip values and contract sizes for the .s symbols, checked in MT5 | 5 |
+| 1 | MRKT calendar filter hides central-bank and PMI events: turn on Centralbank and PMI | 0 |
+| 2 | Portal AI usage limits (none shown; not tested) | 0 |
+| 3 | Fed rate shows 3.88% on the Economy page but 4.00% on Rates: which is meant? | 0 |
+| 4 | Jev not connected yet (key held) | 0 |
+| 5 | Pip values and contract sizes for the .s symbols, checked in MT5 | 5 |
 
 ## 4. Stage 3 questions (asked, not yet answered)
 1. Upload or paste the trading plan and the Basemode / trading-101 material.
@@ -79,7 +78,7 @@ Then Stage 3B (approved styles and per-style rules), Stage 4 (Magic Keys feature
 | `files/index.html` | 4 | `{text: <page HTML>}`, built from `dashboard/index.html` |
 | `datasets/ideas` | 2 | Idea log → `/_blob/eabcf7149c98411924534dde576d9853` (ideas.json) |
 | `datasets/trades` | 2 | Trade journal → `/_blob/23c343cbc987717150d16ae14f87025f` (trades.json) |
-| `datasets/rules` | 6 | Risk rules and settings → `/_blob/b8f364ba79c1123bfb4632f782d4c292` (rules.json) |
+| `datasets/rules` | 7 | Risk rules and settings → `/_blob/681b0340c72cd9e430cdc026468cd28c` (rules.json) |
 | `datasets/onboarding` | 6 | Stage progress → `/_blob/881aeb9bea7199ba468fd4ddf6a64995` (onboarding.json) |
 | `datasets/rates` | 1 | Central banks snapshot → `/_blob/2416671e2c737e2ef3a97332f208fa53` (rates.json) |
 | `datasets/usmacro` | 1 | US economy snapshot → `/_blob/592008b9546ae74858418618535db96f` (usmacro.json) |

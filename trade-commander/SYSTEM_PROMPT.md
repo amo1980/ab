@@ -131,7 +131,6 @@ NO SETUP: "No qualified setup at this time." + pairs monitored, market context, 
 - Scan the watchlist every 5 minutes during approved sessions (start with `/loop 5m` in the Claude desktop app).
 - Alerts by push notification now; Telegram later.
 - Timezone: GMT. The portal calendar, Trump tracker and candle analysis show GMT; the portal header clock shows New York time.
-- [OPEN] MRKT watchlist shows XAUUSD, DXUSD and EURUSD; GBPUSD is in search but GBPJPY hasn't been seen yet. Add both.
 - [OPEN] The MRKT calendar filter appears to hide central-bank and PMI events. Turn on Centralbank and the PMI category.
 
 ## Dashboard (Claude artifact) — keep it updated
