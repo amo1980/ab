@@ -13,7 +13,7 @@ Continue the onboarding flow from where it stopped. One stage at a time: ask, wa
 
 | Stage | Status |
 |---|---|
-| 0 Portal access & feature map | **To confirm**: answers recorded; feature map must be built by browsing the portal |
+| 0 Portal access & feature map | Done (portal browsed 1 Nov; two items still to confirm, see below) |
 | 1 Watchlist | Done |
 | 2 Hard risk rules | Done |
 | 3 Strategy & knowledge base | **In progress**: questions asked, no answers yet |
@@ -42,14 +42,14 @@ Until I send CONFIRMED, every analysis is NO TRADE / INSUFFICIENT EVIDENCE.
 - Direction: **trend-following only, with the higher-timeframe trend.**
 - Position sizing: **fixed % risk from stop distance.** Minimum lot is 0.01.
 - Minimum-lot caps at 0.01 lot (standard contract sizes; confirm in MT5): EURUSD/GBPUSD stop ≤ 20 pips, GBPJPY ≤ ~30 pips, XAUUSD ≤ $6. A setup needing a wider stop is BLOCKED BY RISK RULE.
-- Sessions (GMT): **Asia 23:00–07:00, London 07:00–12:00, New York 12:00–16:00.** New NY trades only after the NY open; London trades may be managed into NY. **[OPEN]** NY open = 08:00 New York (13:00 GMT after the 1 Nov US clock change) or 09:30 (14:30 GMT)? The NY window may need moving.
-- News buffer: **no new trades from 15 min before to 30 min after a high-impact release.** If high-impact news falls within 1 hour of the NY open: wait for the open, wait for the liquidity sweep, then trade with the HTF trend. **[OPEN]** which liquidity and what confirms the sweep (Stage 3 Q5).
+- Sessions (GMT): **Asia 23:00–07:00, London 07:00–12:00, New York 12:00–16:00.** **NY open = 08:00 New York = 13:00 GMT** (US winter time). New NY trades only from 13:00 GMT; London trades may be managed into NY. When US clocks go forward in March, the NY open becomes 12:00 GMT.
+- News buffer: **no new trades from 15 min before to 30 min after a high-impact release.** If high-impact news falls within 1 hour of the NY open (12:00–14:00 GMT, e.g. US data at 13:30 GMT): wait for the open, let the news buffer clear (14:00 GMT for a 13:30 release), wait for the liquidity sweep, then trade with the HTF trend. **[OPEN]** which liquidity and what confirms the sweep (Stage 3 Q5).
 - Pre-news positioning is allowed only if ALL of: score 90+; no portal AI or Jev disagreement; entry placed 15+ min before the release; account can take ~2R slippage; trade moved to break-even or part-closed before the release if in profit.
 - A breach of any rule: label "BLOCKED BY RISK RULE" and name the rule.
 
 ## Data sources, in priority order
 1. MRKT dashboard: context (trend, momentum, volatility, levels, sentiment, news, calendar, rates, economy, history).
-2. Chart in the portal: live price-action confirmation. **[OPEN]** confirm whether the portal's chart (labelled "MRKT Charts") is the TradingView-style chart to use.
+2. MRKT Charts (the portal's chart): live price-action confirmation. Check levels against MT5.
 3. Portal AI (Ask MRKT): cross-check only (rules below).
 4. My trading plan and Basemode knowledge base: rules. **[OPEN]** not yet uploaded.
 5. MT5: execution only, never analysis. No automation unless I enable it in writing.
@@ -64,7 +64,7 @@ Until I send CONFIRMED, every analysis is NO TRADE / INSUFFICIENT EVIDENCE.
 - I have an OpenRouter key. It must be stored as a secret/environment variable (e.g. OPENROUTER_API_KEY), never pasted into chat or screenshots.
 - Use the Jev classifier model, NOT Jev Router. Only enable it if you can actually make API calls in this setup.
 - Jev reads only your written analysis, never the chart. Ask narrow questions with fixed answers including UNCLEAR: facts support direction? any risk rule breached? high-impact event inside buffer? stop on the correct side of invalidation? recommended status from this text?
-- Downgrade-only: any NO / BREACHED / YES-news, any probability below [70%, ask me], or a lower recommended status → WAIT at most.
+- Downgrade-only: any NO / BREACHED / YES-news, any probability below 70%, or a lower recommended status → WAIT at most.
 - SHADOW MODE for the first 25 ideas: log answers, don't let them change status, then report agreement rates. Jev affects status only after I approve.
 
 ## Trade style from market history
@@ -88,7 +88,7 @@ Show each line. Never inflate. 80+ GO, 60–79 WAIT, under 60 STAND DOWN, critic
 
 ## Every analysis
 - Label Fact / Interpretation / Decision. No vague language without evidence. Never pressure me to trade.
-- State the timestamp of every data point. Data older than [X minutes, ask me] is stale: refresh or downgrade.
+- State the timestamp of every data point. Live prices older than 5 minutes are stale: refresh or downgrade. Rates, economic figures and COT data are outside this limit.
 - If MRKT and the chart conflict → WAIT or STAND DOWN. If price invalidates a setup → STAND DOWN immediately.
 - No revenge trades, no averaging down, nothing outside the plan.
 
@@ -130,7 +130,9 @@ NO SETUP: "No qualified setup at this time." + pairs monitored, market context, 
 ## Monitoring and alerts
 - Scan the watchlist every 5 minutes during approved sessions (start with `/loop 5m` in the Claude desktop app).
 - Alerts by push notification now; Telegram later.
-- Timezone: I'm on GMT. Confirm the portal's time zone (calendar appears to be UTC).
+- Timezone: GMT. The portal calendar, Trump tracker and candle analysis show GMT; the portal header clock shows New York time.
+- [OPEN] MRKT watchlist shows XAUUSD, DXUSD and EURUSD; GBPUSD is in search but GBPJPY hasn't been seen yet. Add both.
+- [OPEN] The MRKT calendar filter appears to hide central-bank and PMI events. Turn on Centralbank and the PMI category.
 
 ## Dashboard (Claude artifact) — keep it updated
 https://claude.ai/artifact/W66oSf91xQgvW9v4KKfWyN — see trade-commander/HANDOFF.md for how to update it. Update it whenever an idea changes status, a trade is taken, managed or closed, a rule changes, or a review is written.

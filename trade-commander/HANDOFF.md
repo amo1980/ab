@@ -1,6 +1,6 @@
 # TRADE COMMANDER — handoff
 
-Last updated 1 Nov 2026. Read this first in a new session, then paste `SYSTEM_PROMPT.md` as the opening message.
+Last updated 14 Nov 2026. Read this first in a new session, then paste `SYSTEM_PROMPT.md` as the opening message.
 
 ## 1. Where things stand
 
@@ -8,13 +8,13 @@ Last updated 1 Nov 2026. Read this first in a new session, then paste `SYSTEM_PR
 - Prompt built through four rounds of edits: browser control of MRKT, portal AI as a cross-check, optional Jev classifier, trade-style selection from market history, dashboard with journal and review loop, annotated charts, collapsible ideas.
 - Jev researched. Conclusion: use as a downgrade-only text checker, in shadow mode for the first 25 ideas; use the Jev classifier, not Jev Router.
 - Stage 0 answers recorded (access, alerts, scan interval, timezone, Jev key held, dashboard as an artifact).
+- Stage 0 Portal access: done (portal browsed in a 1 Nov session).
 - Stage 1 Watchlist: done.
 - Stage 2 Hard risk rules: done.
 - Stage 5B Dashboard: built and live.
 - Idea I-0001 logged: XAUUSD, NO TRADE (onboarding incomplete), with an annotated chart from the 30 Oct screenshot.
 
 **Not done**
-- No live browser session yet. Everything so far came from screenshots, so the Stage 0 feature map still has to be built by browsing.
 - Stages 3, 3B, 4, 5 and 6.
 - The dashboard's automatic check never returned a result after the second update. The first load showed every dataset loading except the empty trade journal, which was fixed by adding a "journal opened" row.
 
@@ -24,22 +24,22 @@ Last updated 1 Nov 2026. Read this first in a new session, then paste `SYSTEM_PR
 2. Log in to https://app.mrktedge.ai/ yourself in that browser.
 3. Paste `SYSTEM_PROMPT.md` as the first message.
 4. Store the OpenRouter key as an environment variable or secret (e.g. `OPENROUTER_API_KEY`). Never paste it into chat.
-5. Ask Claude to finish Stage 0: browse every portal section, build the feature map, confirm the portal's time zone, and confirm which chart is the live confirmation chart.
+5. Fix the two MRKT settings in Open questions (watchlist, calendar filter).
 6. Then answer the Stage 3 questions (section 4).
 7. After CONFIRMED: start scanning with `/loop 5m` and turn on push notifications.
 
 ## 3. Open questions
 
+A session on 1 Nov browsed the portal and settled: live chart = MRKT Charts (check levels against MT5); time zone GMT (header clock is New York time); stale data = live prices older than 5 minutes; Jev threshold 70%, shadow for 25 ideas. NY open settled 14 Nov as 13:00 GMT.
+
 | # | Question | Stage |
 |---|---|---|
-| 1 | Which time is the NY open: 08:00 New York (13:00 GMT from 2 Nov) or 09:30 (14:30 GMT)? Does the 12:00–16:00 GMT NY window need moving after the US clock change? | 2 |
-| 2 | Is the portal chart (labelled "MRKT Charts") the TradingView chart for live confirmation? | 0 |
-| 3 | Portal time zone (the calendar looked like UTC) | 0 |
-| 4 | Portal AI usage limits | 0 |
-| 5 | Fed rate shows 3.88% on the Economy page but 4.00% on Rates: which is meant? | 0 |
-| 6 | Jev probability threshold (default 70%) and shadow sample size (default 25) | 0 |
-| 7 | How old data can be before it's stale (minutes) | 0 |
-| 8 | Pip values and contract sizes for the .s symbols, checked in MT5 | 5 |
+| 1 | MRKT watchlist: add GBPUSD and GBPJPY (GBPJPY not yet seen in the portal) | 0 |
+| 2 | MRKT calendar filter hides central-bank and PMI events: turn on Centralbank and PMI | 0 |
+| 3 | Portal AI usage limits (none shown; not tested) | 0 |
+| 4 | Fed rate shows 3.88% on the Economy page but 4.00% on Rates: which is meant? | 0 |
+| 5 | Jev not connected yet (key held) | 0 |
+| 6 | Pip values and contract sizes for the .s symbols, checked in MT5 | 5 |
 
 ## 4. Stage 3 questions (asked, not yet answered)
 1. Upload or paste the trading plan and the Basemode / trading-101 material.
@@ -56,7 +56,7 @@ Then Stage 3B (approved styles and per-style rules), Stage 4 (Magic Keys feature
 - **Minimum lot vs $2 risk.** At 0.01 lot: EURUSD/GBPUSD stops ≤ 20 pips (≈ $0.10/pip), GBPJPY ≤ ~30 pips, gold ≤ $6 at the 3% gold allowance. Most qualifying trades will be FX scalps or day trades.
 - **Gold:** one loss uses 3% of the 5% daily limit, so block a second gold trade that day after a gold loss.
 - **Bank of England decision on 5 Nov.** MRKT showed a 98% chance of a 25 bp hike. High impact for GBPUSD and GBPJPY.
-- **US clocks changed on 1 Nov.** New York is now GMT−5.
+- **NY open is 08:00 New York = 13:00 GMT** (settled 14 Nov). New NY trades from 13:00 GMT. It moves to 12:00 GMT when US clocks go forward in March.
 - **Market snapshot (30 Oct, from screenshots):**
   - Fed 4.00%: hike 70% priced for 9 Dec
   - ECB 2.50%: hike 81% priced for 17 Dec
@@ -79,8 +79,8 @@ Then Stage 3B (approved styles and per-style rules), Stage 4 (Magic Keys feature
 | `files/index.html` | 4 | `{text: <page HTML>}`, built from `dashboard/index.html` |
 | `datasets/ideas` | 2 | Idea log → `/_blob/eabcf7149c98411924534dde576d9853` (ideas.json) |
 | `datasets/trades` | 2 | Trade journal → `/_blob/23c343cbc987717150d16ae14f87025f` (trades.json) |
-| `datasets/rules` | 4 | Risk rules and settings → `/_blob/706edbe293dcf8577d24c99f8ee5e095` (rules.json) |
-| `datasets/onboarding` | 5 | Stage progress → `/_blob/2d652516c2fc6735153f31e75aaf7e7c` (onboarding.json) |
+| `datasets/rules` | 6 | Risk rules and settings → `/_blob/b8f364ba79c1123bfb4632f782d4c292` (rules.json) |
+| `datasets/onboarding` | 6 | Stage progress → `/_blob/881aeb9bea7199ba468fd4ddf6a64995` (onboarding.json) |
 | `datasets/rates` | 1 | Central banks snapshot → `/_blob/2416671e2c737e2ef3a97332f208fa53` (rates.json) |
 | `datasets/usmacro` | 1 | US economy snapshot → `/_blob/592008b9546ae74858418618535db96f` (usmacro.json) |
 | `datasets/reviews` | 1 | Review log → `/_blob/3fe12b77739415440d27ace34013b51b` (reviews.json) |
